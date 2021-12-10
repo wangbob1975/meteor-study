@@ -4,6 +4,8 @@ import { Task } from "./Task";
 import { TasksCollection } from "../db/TasksCollection";
 import { TaskForm } from "./TaskForm";
 import { LoginForm } from "./LoginForm";
+import { Meteor } from "meteor/meteor";
+// import { compose } from "@mui/system";
 
 // 向数据库里更新数据
 const toggleChecked = ({ _id, isChecked }) => {
@@ -20,7 +22,8 @@ const toggleChecked = ({ _id, isChecked }) => {
 // 删除数据
 // 根据子组件传过来的 id 进行删除
 const deleteTask = ({ _id }) => {
-  Meteor.call("tasks.remove", _id);
+  console.log(_id);
+  Meteor.call("task.remove", _id);
   TasksCollection.remove(_id);
 };
 
@@ -71,6 +74,9 @@ export const App = () => {
     return { tasks, pendingTasksCount };
   });
 
+  // 登出操作
+  const logout = () => Meteor.logout();
+
   // 显示待处理的任务数
   // const pendingTasksCount = useTracker(() => {
   //   if (!user) {
@@ -87,7 +93,6 @@ export const App = () => {
     pendingTasksCount ? `(${pendingTasksCount})` : ""
   }`;
 
-  console.log("app", user);
   return (
     <div className="app">
       {/* 头部 */}
@@ -104,7 +109,10 @@ export const App = () => {
         {user ? (
           // 表单增加部分
           <Fragment>
-            <TaskForm />
+            <div className="user" onClick={logout}>
+              {user.username}--退出
+            </div>
+            <TaskForm user={user} />
             <div className="filter">
               {/* 显示 / 隐藏 按钮 */}
               <button onClick={() => setHideCompleted(!hideCompleted)}>

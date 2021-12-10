@@ -136,6 +136,15 @@ header {
   background-color: #62807e;
 }
 
+.user {
+  display: flex;
+
+  align-self: flex-end;
+
+  margin: 8px 16px 0;
+  font-weight: bold;
+}
+
 
 /* 登录表单样式 */
 

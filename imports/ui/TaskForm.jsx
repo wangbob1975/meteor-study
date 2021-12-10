@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { TasksCollection } from "../db/TasksCollection";
 
-export const TaskForm = () => {
+import { Meteor } from "meteor/meteor";
+
+export const TaskForm = ({ user }) => {
   const [text, setText] = useState("");
 
   // 表单提交事件
@@ -12,7 +14,7 @@ export const TaskForm = () => {
     if (!text) return;
     // 向数据库中插入数据
     TasksCollection.insert({
-      text: text,
+      text: text.trim(),
       createdAt: new Date(), // 时间戳
       userId: user._id,
     });
